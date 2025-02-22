@@ -1,0 +1,225 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Dashboard</li>
+</ol>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<div class="row">
+    <!-- Tarjeta para Total de Empleados -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary text-white mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <h6>Total De Empleados</h6>
+                        <p id="totalEmpleados">Cargando...</p> <!-- Initial loading text -->
+                    </div>
+                    <div class="col-sm-3">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+$(document).ready(function() {
+    $.ajax({
+        url: '@Url.Action("TotalEmpleados", "Home")', // Call to TotalEmpleados in HomeController
+        type: 'GET',
+        success: function(response) {
+            if (response.success) {
+                $('#totalEmpleados').text(response.totalEmpleados); // Display total employees
+            } else {
+                $('#totalEmpleados').text('Error: ' + response.message); // Display error message
+            }
+        },
+        error: function(xhr, status, error) {
+            $('#totalEmpleados').text('Error: ' + error); // Display AJAX error
+        }
+    });
+});
+    </script>
+
+
+
+
+
+    <!-- Tarjeta para Calendario -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-danger text-white mb-4">
+            <div class="card-body text-center">
+                <div class="calendar-horizontal">
+                    <i class="fas fa-calendar-alt fa-2x"></i>
+                    <div class="date-info">
+                        <br />
+                        <br />
+
+                        <span id="dayNumber" class="day-number"></span>
+                        <span id="monthName" class="month-name"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-area me-1"></i>
+                Area Chart Example
+            </div>
+            <div class="card-body">
+                <canvas id="myAreaChart" width="100%" height="40"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-bar me-1"></i>
+                Bar Chart Example
+            </div>
+            <div class="card-body">
+                <canvas id="myBarChart" width="100%" height="40"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Función para mostrar el calendario
+    function updateCalendar() {
+        var today = new Date();
+        document.getElementById('dayNumber').textContent = today.getDate();
+        document.getElementById('monthName').textContent = today.toLocaleString('es-MX', { month: 'long' });
+    }
+
+    updateCalendar();
+
+    // Configuración y datos para el gráfico de área
+    var ctxArea = document.getElementById('myAreaChart').getContext('2d');
+    var myAreaChart = new Chart(ctxArea, {
+        type: 'line',
+        data: {
+            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            datasets: [{
+                label: 'Gráfico de Área',
+                data: [10, 20, 15, 25, 30, 35, 40, 45, 50, 55, 60, 65],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Configuración y datos para el gráfico de barras
+    var ctxBar = document.getElementById('myBarChart').getContext('2d');
+    var myBarChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            datasets: [{
+                label: 'Gráfico de Barras',
+                data: [12, 19, 3, 5, 2, 3, 8, 15, 25, 10, 14, 18],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+<style>
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1rem;
+    }
+
+    .card-header {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .calendar-horizontal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .date-info {
+        display: flex;
+        align-items: baseline;
+        margin-left: 10px;
+    }
+
+    .day-number {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-right: 5px;
+    }
+
+    .month-name {
+        font-size: 1.2rem;
+    }
+
+    a.stretched-link {
+        text-decoration: none;
+    }
+</style>

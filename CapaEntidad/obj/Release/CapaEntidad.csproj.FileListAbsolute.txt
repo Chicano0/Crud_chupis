@@ -1,0 +1,6 @@
+C:\Users\Uriel\source\repos\Admin\CapaEntidad\bin\Release\CapaEntidad.dll
+C:\Users\Uriel\source\repos\Admin\CapaEntidad\bin\Release\CapaEntidad.pdb
+C:\Users\Uriel\source\repos\Admin\CapaEntidad\obj\Release\CapaEntidad.csproj.AssemblyReference.cache
+C:\Users\Uriel\source\repos\Admin\CapaEntidad\obj\Release\CapaEntidad.csproj.CoreCompileInputs.cache
+C:\Users\Uriel\source\repos\Admin\CapaEntidad\obj\Release\CapaEntidad.dll
+C:\Users\Uriel\source\repos\Admin\CapaEntidad\obj\Release\CapaEntidad.pdb

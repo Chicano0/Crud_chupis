@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "ExportarRPS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ExportarRPS</h2>
+
+<script>
+    $(document).ready(function() {
+        // Verificar si el usuario está autenticado
+        $.ajax({
+            url: '@Url.Action("CheckSession", "Exportar")',
+            type: 'GET',
+            success: function(response) {
+                if (!response.isAuthenticated) {
+                    // Bloquear la navegación hacia atrás si el usuario no está autenticado
+                    history.pushState(null, null, location.href);
+                    window.onpopstate = function() {
+                        history.go(1);
+                    };
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al verificar sesión:', error);
+            }
+        });
+    });
+
+    function logout() {
+        $.ajax({
+            url: '@Url.Action("Logout", "Exportar")',
+            type: 'POST',
+            success: function() {
+                // Redirige después del cierre de sesión
+                window.location.href = '@Url.Action("Index", "Iniciar_Sesion")';
+
+                // Bloquear la navegación hacia atrás
+                setTimeout(function() {
+                    history.pushState(null, null, location.href);
+                    window.onpopstate = function() {
+                        history.go(1);
+                    };
+                }, 100);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error durante el cierre de sesión:', error);
+            }
+        });
+    }
+</script>

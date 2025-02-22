@@ -1,0 +1,363 @@
+﻿@{
+    ViewBag.Title = "Registro de Vehículos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Vehículos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="mb-4">Lista de Vehículos</h2>
+        <button class="btn btn-success mb-3" data-toggle="modal" data-target="#insertarVehiculoModal">➕ Agregar Vehículo</button>
+        <table id="tablaVehiculos" class="display cell-border" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Propietario</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Año</th>
+                    <th>Placa</th>
+                    <th>Estado Revisión</th>
+                    <th>Falla Descripción</th>
+                    <th>Tipo</th>
+                    <th>Color</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- Modal para agregar vehículo -->
+    <div class="modal fade" id="insertarVehiculoModal" tabindex="-1" aria-labelledby="insertarVehiculoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar Nuevo Vehículo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="insertarVehiculoForm">
+                        <div class="form-group">
+                            <label for="propietario">Propietario</label>
+                            <input type="text" class="form-control" id="propietario" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="marca">Marca</label>
+                            <input type="text" class="form-control" id="marca" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modelo">Modelo</label>
+                            <input type="text" class="form-control" id="modelo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="año">Año</label>
+                            <input type="number" class="form-control" id="año" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="placa">Placa</label>
+                            <input type="text" class="form-control" id="placa" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="estadoRevision">Estado Revisión</label>
+                            <select class="form-control" id="estadoRevision" required>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="En Revisión">En Revisión</option>
+                                <option value="Solucionado">Solucionado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="fallaDescripcion">Descripción de la Falla</label>
+                            <textarea class="form-control" id="fallaDescripcion" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo">Tipo</label>
+                            <input type="text" class="form-control" id="tipo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="color">Color</label>
+                            <input type="text" class="form-control" id="color" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            let table = $('#tablaVehiculos').DataTable({
+                "ajax": {
+                    "url": "/Auto/ListaAutos",
+                    "type": "GET",
+                    "dataSrc": function (json) {
+                        console.log("Datos recibidos:", json);
+                        if (!json.data) {
+                            console.error("Error: No se encontraron datos en la respuesta.");
+                            return [];
+                        }
+                        return json.data;
+                    },
+                    "error": function (xhr, error, thrown) {
+                        console.error("Error en la petición AJAX:", error, thrown);
+                        alert("Error al cargar los datos.");
+                    }
+                },
+                "columns": [
+                    { "data": "Id" },  // 🛠️ Se asegura que coincida con el JSON del backend
+                    { "data": "Propietario" },
+                    { "data": "Marca" },
+                    { "data": "Modelo" },
+                    { "data": "Año" },
+                    { "data": "Placa" },
+                    { "data": "EstadoRevision" },
+                    { "data": "FallaDescripcion" },
+                    { "data": "Tipo" },
+                    { "data": "Color" },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            return `
+                                        <button class='btn btn-danger btn-eliminar' data-id='${row.Id}'>🗑️ Eliminar</button>`;
+                        }
+                    }
+                ]
+            });
+
+            // Insertar nuevo vehículo
+            $('#insertarVehiculoForm').on('submit', function (e) {
+                e.preventDefault();
+                let nuevoVehiculo = {
+                    Id: $('#id').val(), // Asegurar que el ID se envíe correctamente
+                    Propietario: $('#propietario').val(),
+                    Marca: $('#marca').val(),
+                    Modelo: $('#modelo').val(),
+                    Año: $('#año').val(),
+                    Placa: $('#placa').val(),
+                    EstadoRevision: $('#estadoRevision').val(),
+                    FallaDescripcion: $('#fallaDescripcion').val(),
+                    Tipo: $('#tipo').val(),
+                    Color: $('#color').val()
+                };
+
+                $.ajax({
+                    url: "/Auto/InsertarAuto",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(nuevoVehiculo),
+                    success: function (data) {
+                        if (data.success) {
+                            $('#insertarVehiculoModal').modal('hide');
+                            table.ajax.reload(null, false);
+                        } else {
+                            console.error("Error al insertar:", data.message);
+                            alert("Error al insertar: " + data.message);
+                        }
+                    },
+                    error: function (xhr, error, thrown) {
+                        console.error("Error en la petición AJAX:", error, thrown);
+                        alert("No se pudo insertar el vehículo.");
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Modal para editar vehículo -->
+<div class="modal fade" id="editarVehiculoModal" tabindex="-1" aria-labelledby="editarVehiculoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Vehículo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editarVehiculoForm">
+                    <input type="hidden" id="editarId">
+                    <div class="form-group">
+                        <label for="editarPropietario">Propietario</label>
+                        <input type="text" class="form-control" id="editarPropietario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editarMarca">Marca</label>
+                        <input type="text" class="form-control" id="editarMarca" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editarModelo">Modelo</label>
+                        <input type="text" class="form-control" id="editarModelo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editarAño">Año</label>
+                        <input type="number" class="form-control" id="editarAño" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editarPlaca">Placa</label>
+                        <input type="text" class="form-control" id="editarPlaca" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editarEstadoRevision">Estado Revisión</label>
+                        <select class="form-control" id="editarEstadoRevision" required>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En Revisión">En Revisión</option>
+                            <option value="Solucionado">Solucionado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editarFallaDescripcion">Descripción de la Falla</label>
+                        <textarea class="form-control" id="editarFallaDescripcion" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editarTipo">Tipo</label>
+                        <input type="text" class="form-control" id="editarTipo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editarColor">Color</label>
+                        <input type="text" class="form-control" id="editarColor" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        $(document).ready(function () {
+            let table = $('#tablaVehiculos').DataTable({
+                "ajax": {
+                    "url": "/Auto/ListaAutos",
+                    "type": "GET",
+                    "dataSrc": function (json) {
+                        console.log("Datos recibidos:", json);
+                        if (!json.data) {
+                            console.error("Error: No se encontraron datos en la respuesta.");
+                            return [];
+                        }
+                        return json.data;
+                    },
+                    "error": function (xhr, error, thrown) {
+                        console.error("Error en la petición AJAX:", error, thrown);
+                        alert("Error al cargar los datos.");
+                    }
+                },
+                "columns": [
+                    { "data": "Id" },
+                    { "data": "Propietario" },
+                    { "data": "Marca" },
+                    { "data": "Modelo" },
+                    { "data": "Año" },
+                    { "data": "Placa" },
+                    { "data": "EstadoRevision" },
+                    { "data": "FallaDescripcion" },
+                    { "data": "Tipo" },
+                    { "data": "Color" },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            return `<button class='btn btn-warning btn-editar' data-id='${row.Id}' data-toggle='modal' data-target='#editarVehiculoModal'>✏️ Editar</button>
+                            <button class='btn btn-danger btn-eliminar' data-id='${row.Id}'>🗑️ Eliminar</button>`;
+                        }
+                    }
+                ]
+            });
+
+            // Manejo de edición
+            $('#tablaVehiculos tbody').on('click', '.btn-editar', function () {
+                let id = $(this).data('id');
+
+                // Obtener datos del vehículo a editar
+                let rowData = table.row($(this).parents('tr')).data();
+
+                $('#editarId').val(rowData.Id);
+                $('#editarPropietario').val(rowData.Propietario);
+                $('#editarMarca').val(rowData.Marca);
+                $('#editarModelo').val(rowData.Modelo);
+                $('#editarAño').val(rowData.Año);
+                $('#editarPlaca').val(rowData.Placa);
+                $('#editarEstadoRevision').val(rowData.EstadoRevision);
+                $('#editarFallaDescripcion').val(rowData.FallaDescripcion);
+                $('#editarTipo').val(rowData.Tipo);
+                $('#editarColor').val(rowData.Color);
+            });
+
+            // Guardar edición
+            $('#editarVehiculoForm').on('submit', function (e) {
+                e.preventDefault();
+
+                let vehiculoEditado = {
+                    Id: $('#editarId').val(),
+                    Propietario: $('#editarPropietario').val(),
+                    Marca: $('#editarMarca').val(),
+                    Modelo: $('#editarModelo').val(),
+                    Año: $('#editarAño').val(),
+                    Placa: $('#editarPlaca').val(),
+                    EstadoRevision: $('#editarEstadoRevision').val(),
+                    FallaDescripcion: $('#editarFallaDescripcion').val(),
+                    Tipo: $('#editarTipo').val(),
+                    Color: $('#editarColor').val()
+                };
+
+                $.ajax({
+                    url: "/Auto/EditarAuto",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(vehiculoEditado),
+                    success: function (data) {
+                        if (data.success) {
+                            $('#editarVehiculoModal').modal('hide');
+                            table.ajax.reload(null, false);
+                        } else {
+                            alert("Error al editar: " + data.message);
+                        }
+                    },
+                    error: function (xhr, error, thrown) {
+                        console.error("Error en la petición AJAX:", error, thrown);
+                        alert("No se pudo editar el vehículo.");
+                    }
+                });
+            });
+
+            // Manejo de eliminación
+            $('#tablaVehiculos tbody').on('click', '.btn-eliminar', function () {
+                let id = $(this).data('id');
+
+                if (confirm("¿Estás seguro de que quieres eliminar este vehículo?")) {
+                    $.ajax({
+                        url: "/Auto/EliminarAuto",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ id: id }),
+                        success: function (data) {
+                            if (data.success) {
+                                table.ajax.reload(null, false);
+                            } else {
+                                alert("Error al eliminar: " + data.message);
+                            }
+                        },
+                        error: function (xhr, error, thrown) {
+                            console.error("Error en la petición AJAX:", error, thrown);
+                            alert("No se pudo eliminar el vehículo.");
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
+
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

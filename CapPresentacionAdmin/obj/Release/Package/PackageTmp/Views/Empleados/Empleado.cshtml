@@ -1,0 +1,171 @@
+﻿@{
+    ViewBag.Title = "Empleados";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var empleados = ViewBag.Empleados as System.Data.DataTable;
+    var errorMessage = ViewBag.ErrorMessage as string;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>@ViewBag.Title</title>
+    <!-- Incluir CSS de Bootstrap si es necesario -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+</head>
+
+<body>
+    <ol class="breadcrumb mt-4">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+        <li class="breadcrumb-item active">Empleados</li>
+    </ol>
+
+    <script>
+         function logout() {
+    $.ajax({
+        url: '@Url.Action("Logout", "Home")', // Ajusta el nombre del controlador si es diferente
+        type: 'POST',
+        success: function() {
+            window.location.href = '@Url.Action("Index", "Iniciar_Sesion")'; // Redirige después del cierre de sesión
+        },
+        error: function(xhr, status, error) {
+            console.error('Error durante el cierre de sesión:', error);
+            // Opcional: maneja los errores aquí
+        }
+    });
+}
+
+    </script>
+
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-users"></i> Lista De Empleados
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                </div>
+            </div>
+
+            <hr />
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger">
+                    @errorMessage
+                </div>
+            }
+
+            <table id="tabla" class="display cell-border" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>NoEmpleado</th>
+                        <th>Departamento</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (empleados != null && empleados.Rows.Count > 0)
+                    {
+                        foreach (System.Data.DataRow row in empleados.Rows)
+                        {
+                            <tr>
+                                <td>@row["Id"]</td>
+                                <td>@row["Nombre"]</td>
+                                <td>@row["NoEmpleado"]</td>
+                                <td>@row["Departamento"]</td>
+                                <td>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6">No se encontraron datos</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Modal para editar empleado -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Empleado</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm" action="@Url.Action("EditarEmpleado", "Empleados")" method="post">
+                        <input type="hidden" id="editId" name="Id" />
+                        <div class="form-group">
+                            <label for="editNombre">Nombre</label>
+                            <input type="text" class="form-control" id="editNombre" name="Nombre" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editNoEmpleado">NoEmpleado</label>
+                            <input type="text" class="form-control" id="editNoEmpleado" name="NoEmpleado" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editDepartamento">Departamento</label>
+                            <input type="text" class="form-control" id="editDepartamento" name="Departamento" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#tabla').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "language": {
+                    "paginate": {
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "search": "Buscar:",
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                    "infoEmpty": "No hay registros disponibles",
+                    "infoFiltered": "(filtrado de _MAX_ registros en total)"
+                }
+            });
+        });
+
+        function openEditModal(id, nombre, noEmpleado, departamento) {
+            $('#editId').val(id);
+            $('#editNombre').val(nombre);
+            $('#editNoEmpleado').val(noEmpleado);
+            $('#editDepartamento').val(departamento);
+            $('#editModal').modal('show');
+        }
+    </script>
+
+    <!-- Bootstrap JS y dependencias (si es necesario) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

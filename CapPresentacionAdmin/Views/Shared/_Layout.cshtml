@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title - Chupis Mechanics </title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    @Styles.Render("~/Content/css")
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand -->
+        <a class="navbar-brand ps-3" href="@Url.Action("Index", "Home")">Inventario</a>
+        <!-- Sidebar Toggle -->
+     
+        <!-- Navbar -->
+        <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user fa-fw"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#" onclick="logout()">Cerrar Sesión</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Inicio</div>
+                        <a class="nav-link" href="@Url.Action("Index", "Home")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Dashboard
+                        </a>
+
+                        <a class="nav-link" href="@Url.Action("Empleado", "Empleados")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                            Empleados
+                        </a>
+                        <a class="nav-link" href="@Url.Action("Registro", "Auto")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-car"></i></div>
+                            Registrar Automóvil
+                        </a>
+
+
+
+                    </div>
+                </div>
+             
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    @RenderBody()
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        // Verificar si el usuario está autenticado
+        $.ajax({
+            url: '@Url.Action("CheckSession", "Exportar")',
+            type: 'GET',
+            success: function(response) {
+                if (!response.isAuthenticated) {
+                    // Bloquear la navegación hacia atrás si el usuario no está autenticado
+                    history.pushState(null, null, location.href);
+                    window.onpopstate = function() {
+                        history.go(1);
+                    };
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al verificar sesión:', error);
+            }
+        });
+    });
+
+    function logout() {
+        $.ajax({
+            url: '@Url.Action("Logout", "Exportar")',
+            type: 'POST',
+            success: function() {
+                // Redirige después del cierre de sesión
+                window.location.href = '@Url.Action("Index", "Iniciar_Sesion")';
+
+                // Bloquear la navegación hacia atrás
+                setTimeout(function() {
+                    history.pushState(null, null, location.href);
+                    window.onpopstate = function() {
+                        history.go(1);
+                    };
+                }, 100);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error durante el cierre de sesión:', error);
+            }
+        });
+    }
+    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/complementos")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

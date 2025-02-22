@@ -1,0 +1,11 @@
+C:\Users\Uriel\source\repos\Admin\CapaComedor\bin\Release\CapaComedor.dll
+C:\Users\Uriel\source\repos\Admin\CapaComedor\bin\Release\CapaComedor.pdb
+C:\Users\Uriel\source\repos\Admin\CapaComedor\bin\Release\CapaDatos.dll
+C:\Users\Uriel\source\repos\Admin\CapaComedor\bin\Release\CapaEntidad.dll
+C:\Users\Uriel\source\repos\Admin\CapaComedor\bin\Release\CapaDatos.pdb
+C:\Users\Uriel\source\repos\Admin\CapaComedor\bin\Release\CapaEntidad.pdb
+C:\Users\Uriel\source\repos\Admin\CapaComedor\obj\Release\CapaComedor.csproj.AssemblyReference.cache
+C:\Users\Uriel\source\repos\Admin\CapaComedor\obj\Release\CapaComedor.csproj.CoreCompileInputs.cache
+C:\Users\Uriel\source\repos\Admin\CapaComedor\obj\Release\CapaComedor.csproj.CopyComplete
+C:\Users\Uriel\source\repos\Admin\CapaComedor\obj\Release\CapaComedor.dll
+C:\Users\Uriel\source\repos\Admin\CapaComedor\obj\Release\CapaComedor.pdb

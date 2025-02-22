@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Uriel\\source\\repos\\Admin\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AFEEB8D9-E855-4225-9EB6-9367E1E7A55B}|CapPresentacionAdmin\\CapPresentacionAdmin.csproj|c:\\users\\uriel\\source\\repos\\admin\\cappresentacionadmin\\views\\auto\\registro.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AFEEB8D9-E855-4225-9EB6-9367E1E7A55B}|CapPresentacionAdmin\\CapPresentacionAdmin.csproj|solutionrelative:cappresentacionadmin\\views\\auto\\registro.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFEEB8D9-E855-4225-9EB6-9367E1E7A55B}|CapPresentacionAdmin\\CapPresentacionAdmin.csproj|C:\\Users\\Uriel\\source\\repos\\Admin\\cappresentacionadmin\\controllers\\autocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AFEEB8D9-E855-4225-9EB6-9367E1E7A55B}|CapPresentacionAdmin\\CapPresentacionAdmin.csproj|solutionrelative:cappresentacionadmin\\controllers\\autocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AutoController.cs",
+              "DocumentMoniker": "C:\\Users\\Uriel\\source\\repos\\Admin\\CapPresentacionAdmin\\Controllers\\AutoController.cs",
+              "RelativeDocumentMoniker": "CapPresentacionAdmin\\Controllers\\AutoController.cs",
+              "ToolTip": "C:\\Users\\Uriel\\source\\repos\\Admin\\CapPresentacionAdmin\\Controllers\\AutoController.cs",
+              "RelativeToolTip": "CapPresentacionAdmin\\Controllers\\AutoController.cs",
+              "ViewState": "AgIAADMAAACAy8zMzEwdwCgAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-22T00:11:54.417Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Registro.cshtml",
+              "DocumentMoniker": "C:\\Users\\Uriel\\source\\repos\\Admin\\CapPresentacionAdmin\\Views\\Auto\\Registro.cshtml",
+              "RelativeDocumentMoniker": "CapPresentacionAdmin\\Views\\Auto\\Registro.cshtml",
+              "ToolTip": "C:\\Users\\Uriel\\source\\repos\\Admin\\CapPresentacionAdmin\\Views\\Auto\\Registro.cshtml",
+              "RelativeToolTip": "CapPresentacionAdmin\\Views\\Auto\\Registro.cshtml",
+              "ViewState": "AgIAAGcAAAAAAAAAAAAuwIEAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-02-21T23:36:44.922Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

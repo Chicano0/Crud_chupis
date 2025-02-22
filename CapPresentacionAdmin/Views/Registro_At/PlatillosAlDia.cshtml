@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "PlatillosAlDia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>PlatillosAlDia</h2>
+
+<script>
+         function logout() {
+    $.ajax({
+        url: '@Url.Action("Logout", "Home")', // Ajusta el nombre del controlador si es diferente
+        type: 'POST',
+        success: function() {
+            window.location.href = '@Url.Action("Index", "Iniciar_Sesion")'; // Redirige después del cierre de sesión
+        },
+        error: function(xhr, status, error) {
+            console.error('Error durante el cierre de sesión:', error);
+            // Opcional: maneja los errores aquí
+        }
+    });
+}
+
+</script>
