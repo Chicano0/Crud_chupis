@@ -7,7 +7,7 @@ namespace CapPresentacionAdmin.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private string connectionString = "Server=DESKTOP-CNF4DJ8\\SQLEXPRESS;Database=ComedorRps;Integrated Security=True;";
+        private string connectionString = "Server=DESKTOP-CNF4DJ8\\SQLEXPRESS;Database=Crud_chupis;Integrated Security=True;";
 
         public ActionResult Index()
         {
@@ -52,5 +52,22 @@ namespace CapPresentacionAdmin.Controllers
             }
             return totalEmpleados;
         }
+
+        [HttpPost]
+        public JsonResult Logout()
+        {
+            try
+            {
+                // Opcional: Realiza cualquier limpieza necesaria del lado del servidor
+                System.Web.Security.FormsAuthentication.SignOut();
+
+                return Json(new { success = true, redirectUrl = "/Iniciar_Sesion.aspx" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error al cerrar sesión: " + ex.Message });
+            }
+        }
+
     }
 }

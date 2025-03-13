@@ -80,4 +80,5 @@ C:\Users\Uriel\source\repos\Admin\CapPresentacionAdmin\bin\DPCtlUruNet.xml
 C:\Users\Uriel\source\repos\Admin\CapPresentacionAdmin\bin\DPCtlXUru.xml
 C:\Users\Uriel\source\repos\Admin\CapPresentacionAdmin\bin\DPUruNet.xml
 C:\Users\Uriel\source\repos\Admin\CapPresentacionAdmin\bin\DPXUru.xml
-C:\Users\Uriel\source\repos\Admin\CapPresentacionAdmin\obj\Debug\CapPrese.66949D53.Up2Date
+C:\Users\Uriel\source\repos\Admin\CapPresentacionAdmin\obj\Debug\CapPresentacionAdmin.csproj.CopyComplete
+C:\Users\Uriel\source\repos\Admin\CapPresentacionAdmin\obj\Debug\CapPresentacionAdmin.sourcelink.json

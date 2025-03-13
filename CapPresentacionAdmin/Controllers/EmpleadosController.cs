@@ -98,7 +98,7 @@ namespace CapPresentacionAdmin.Controllers
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT COUNT(*) FROM empleados";
+                    string query = "SELECT COUNT(*) FROM Empleados";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         conn.Open();

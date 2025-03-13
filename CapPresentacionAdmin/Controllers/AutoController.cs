@@ -87,9 +87,8 @@ namespace CapPresentacionAdmin.Controllers
             }
             return Json(new { success = false, message = "Usuario no autenticado." });
         }
-
         [HttpPost]
-        public JsonResult EditarAuto(Vehiculo auto)
+        public JsonResult EditarEstadoRevision(Vehiculo auto)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -97,36 +96,27 @@ namespace CapPresentacionAdmin.Controllers
                 {
                     using (SqlConnection conn = new SqlConnection(connectionString))
                     {
-                        string query = "UPDATE Vehiculos SET Propietario = @Propietario, Marca = @Marca, Modelo = @Modelo, " +
-                                       "Año = @Año, Placa = @Placa, EstadoRevision = @EstadoRevision, Tipo = @Tipo, " +
-                                       "Color = @Color, FallaDescripcion = @FallaDescripcion WHERE Id = @Id";
+                        string query = "UPDATE Vehiculos SET EstadoRevision = @EstadoRevision WHERE Id = @Id";
 
                         using (SqlCommand cmd = new SqlCommand(query, conn))
                         {
                             cmd.Parameters.AddWithValue("@Id", auto.Id);
-                            cmd.Parameters.AddWithValue("@Propietario", auto.Propietario);
-                            cmd.Parameters.AddWithValue("@Marca", auto.Marca);
-                            cmd.Parameters.AddWithValue("@Modelo", auto.Modelo);
-                            cmd.Parameters.AddWithValue("@Año", auto.Año);
-                            cmd.Parameters.AddWithValue("@Placa", auto.Placa);
-                            cmd.Parameters.AddWithValue("@EstadoRevision", auto.EstadoRevision);
-                            cmd.Parameters.AddWithValue("@Tipo", auto.Tipo);
-                            cmd.Parameters.AddWithValue("@Color", auto.Color);
-                            cmd.Parameters.AddWithValue("@FallaDescripcion", auto.FallaDescripcion);
+                            cmd.Parameters.AddWithValue("@EstadoRevision", auto.EstadoRevision); // Verifica que el tipo de datos en la DB coincida
 
                             conn.Open();
                             cmd.ExecuteNonQuery();
                         }
                     }
-                    return Json(new { success = true, message = "Vehículo actualizado correctamente." });
+                    return Json(new { success = true, message = "Estado de Revisión actualizado correctamente." });
                 }
                 catch (Exception ex)
                 {
-                    return Json(new { success = false, message = "Error al editar el auto: " + ex.Message });
+                    return Json(new { success = false, message = "Error al editar el estado: " + ex.Message });
                 }
             }
             return Json(new { success = false, message = "Usuario no autenticado." });
         }
+
 
 
         [HttpPost]
