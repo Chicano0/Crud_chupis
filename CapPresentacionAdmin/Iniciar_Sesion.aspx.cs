@@ -34,7 +34,8 @@ namespace CapPresentacionAdmin
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT COUNT(*) FROM Admin WHERE email = @Email AND password = HASHBYTES('SHA2_256', @Password)";
+                // La consulta ahora compara las contraseñas directamente, sin encriptación
+                string query = "SELECT COUNT(*) FROM Admin WHERE email = @Email AND password = @Password";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@Email", email);
